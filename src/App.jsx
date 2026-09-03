@@ -13,7 +13,7 @@ function App() {
           <NavBar />
           <Cuisine />
           <Routes>
-            <Route to="/"></Route>
+            <Route path="/" element={<HomeView />} />
           </Routes>
         </div>
       </Router>
