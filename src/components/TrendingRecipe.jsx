@@ -3,6 +3,7 @@ import { useFetch } from "./useFetch";
 import SliderComponent from "react-slick";
 
 import { Clock, Loader } from "lucide-react";
+import { Link } from "react-router-dom";
 const TrendingRecipe = ({ title, fetchUrl }) => {
   const Slider = SliderComponent.default || SliderComponent;
   const { data, loading, error } = useFetch(fetchUrl);
@@ -72,18 +73,21 @@ const TrendingRecipe = ({ title, fetchUrl }) => {
         <div className="w-full mx-auto">
           <Slider {...settings}>
             {meals.map((meal) => (
-              <div key={meal.idMeal} className="outline-none px-2">
-                <div className=" mb-5 relative bg-gray-900 group rounded-xl shadow-xl  shadow-black overflow-hidden transform transition duration-500 cursor-pointer border border-gray-800 hover:shadow-blue-600">
-                  <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-blue-500 transition duration-500"></div>
-                  <div className="flex flex-col justify-center items-center p-5">
-                    <img
-                      src={meal?.strMealThumb}
-                      alt={meal?.strMeal}
-                      className="h-30 w-30 rounded-xl border border-yellow-400 transition duration-500 group-hover:scale-105"
-                    />
+              <Link to={`/recipe/${meal.idMeal}`}>
+                {" "}
+                <div key={meal.idMeal} className="outline-none px-2">
+                  <div className=" mb-5 relative bg-gray-900 group rounded-xl shadow-xl  shadow-black overflow-hidden transform transition duration-500 cursor-pointer border border-gray-800 hover:shadow-blue-600">
+                    <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-blue-500 transition duration-500"></div>
+                    <div className="flex flex-col justify-center items-center p-5">
+                      <img
+                        src={meal?.strMealThumb}
+                        alt={meal?.strMeal}
+                        className="h-30 w-30 rounded-xl border border-yellow-400 transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </Slider>
         </div>

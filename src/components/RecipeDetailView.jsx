@@ -1,6 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useFetch, API_URL } from "./useFetch";
-import { Loader, ChevronLeft, ChevronRight, Utensils } from "lucide-react";
+import {
+  Loader,
+  ChevronLeft,
+  ChevronRight,
+  Utensils,
+  BookOpen,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 const RecipeDetailView = () => {
   const { id } = useParams();
@@ -28,6 +34,12 @@ const RecipeDetailView = () => {
     );
   if (error)
     return <div className="text-center text-red-500 my-10">Error loading</div>;
+  const instructions = meal.strInstructions
+    ? meal.strInstructions
+        .split(".")
+        .map((step) => step.trim())
+        .filter((step) => step.length > 0)
+    : [];
   return (
     <>
       <main className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -37,50 +49,73 @@ const RecipeDetailView = () => {
         >
           <ChevronLeft className="w-6 h-6 mr-1 transition" /> Back To Home
         </Link>
-        <div className="container lg:flex lg:space-x-12 lg:justify-between p-6 md:p-12    bg-gray-900 rounded-3xl shadow-2xl shadow-black/70 border border-gray-800">
-          <div className="mb-4">
-            <h2 className="text-white pb-6 font-extrabold leading-tight text-4xl">
-              {meal?.strMeal}
-            </h2>
+        <div className="container  bg-gray-900 rounded-3xl shadow-2xl shadow-black/70 border border-gray-800  ">
+          <div className="lg:flex lg:space-x-12 lg:justify-between p-6 md:p-12   ">
+            <div className="mb-4">
+              <h2 className="text-white pb-6 font-extrabold leading-tight text-4xl">
+                {meal?.strMeal}
+              </h2>
 
-            <img
-              src={meal.strMealThumb}
-              alt={meal.strMeal}
-              className=" w-100 h-100 rounded-xl p-1 object-cover ring-2 ring-blue-500/50 "
-            />
-          </div>
-
-          <div className=" lg:w-1/2 bg-gray-800 shadow-inner shadow-black/30 p-6 rounded-xl border broder-gray-700">
-            <h2 className="flex items-center mb-6 text-yellow-400 text-3xl font-bold  border-b border-gray-700 pb-3 ">
-              <Utensils className="w-7 h-7 mr-3   text-blue-500 " />
-              Key Ingredients
-            </h2>
-            <div className="pb-4 border-b border-gray-700">
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gapx-6 gapy-4 list-none p-0 ">
-                {ingredients.map((item, index) => (
-                  <li
-                    key={index}
-                    className="text-sm text-gray-300 space-x-2 flex justify-left items-center leading-relaxed"
-                  >
-                    <ChevronRight className="text-blue-500 w-3 h-3 shrink-0 mr-2" />
-                    <span className="font-bold text-white mr-1 ">
-                      {item.measurement}
-                    </span>
-                    <span>{item.ingredient}</span>
-                  </li>
-                ))}
-              </ul>
+              <img
+                src={meal.strMealThumb}
+                alt={meal.strMeal}
+                className=" w-100 h-100 rounded-xl p-1 object-cover ring-2 ring-blue-500/50 "
+              />
             </div>
-            <div className="mt-8 pt-4">
-              <div className="text-lg text-gray-400 flex flex-wrap gap-2">
-                <span className=" text-white bg-blue-600 space-x-3 px-4 py-1 5 font-semibold shadow md rounded-full hover:bg-blue-700 cursor-pointer ">
-                  {meal.strCategory}
-                </span>
-                <span className="text-white bg-green-600 space-x-3 px-4 py-1 5 font-semibold shadow md rounded-full hover:bg-green-700 cursor-pointer ">
-                  {meal?.strArea}
-                </span>
+
+            <div className=" lg:w-1/2 bg-gray-800 shadow-inner shadow-black/30 p-6 rounded-xl border broder-gray-700">
+              <h2 className="flex items-center mb-6 text-yellow-400 text-3xl font-bold  border-b border-gray-700 pb-3 ">
+                <Utensils className="w-7 h-7 mr-3   text-blue-500 " />
+                Key Ingredients
+              </h2>
+              <div className="pb-2 border-b border-gray-700">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gapx-6 gapy-4 list-none p-0 font-sans">
+                  {ingredients.map((item, index) => (
+                    <li
+                      key={index}
+                      className="text-sm text-gray-300 space-x-2 flex justify-left items-center leading-10"
+                    >
+                      <ChevronRight className="text-blue-500 w-3 h-3 shrink-0 mr-2" />
+                      <span className="font-bold text-white mr-1 ">
+                        {item.measurement}
+                      </span>
+                      <span>{item.ingredient}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-8 pt-4">
+                <div className="text-lg text-gray-400 flex flex-wrap gap-2">
+                  <span className=" text-white bg-blue-600 space-x-3 px-4 py-1 5 font-semibold shadow md rounded-full hover:bg-blue-700 cursor-pointer ">
+                    {meal.strCategory}
+                  </span>
+                  <span className="text-white bg-green-600 space-x-3 px-4 py-1 5 font-semibold shadow md rounded-full hover:bg-green-700 cursor-pointer ">
+                    {meal?.strArea}
+                  </span>
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* instructions */}
+          <div className="mt-14 pt-8 border-t border-gray-800">
+            <h2 className="text-3xl font-bold text-gray-100 mb-8 flex items-center">
+              <BookOpen className="w-7 h-7 mr-3 text-blue-500" />
+              Detailed Preparation Steps{" "}
+            </h2>
+            <ol className="space-y-6 list-none text-gray-300">
+              {instructions.map((step, index) => (
+                <li
+                  key={index}
+                  className="text-lg leading-relaxed bg-gray-800 p-5 rounded-xl border-l-6 border-blue-500 shadow-lg shadow-black-30 transition duration-300 hover:bg-gray-700/50"
+                >
+                  <span className="font-extrabold text-yellow-400 mr-3 text-xl">
+                    {index + 1}
+                  </span>
+                  {step.trim()}
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </main>
