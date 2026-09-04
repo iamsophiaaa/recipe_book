@@ -14,6 +14,7 @@ function App() {
           <Cuisine />
           <Routes>
             <Route path="/" element={<HomeView />} />
+            <Route path="/recipe/:id" element={<RecipeDetailView />} />
           </Routes>
         </div>
       </Router>

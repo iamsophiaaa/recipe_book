@@ -1,5 +1,5 @@
 import { useFetch } from "./useFetch";
-import RecipeCard from "./RecipeCard";
+
 import SliderComponent from "react-slick";
 
 import { Clock, Loader } from "lucide-react";
