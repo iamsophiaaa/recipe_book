@@ -16,7 +16,7 @@ const NavBar = ({ handleSearch }) => {
     <>
       <nav className="sticky top-0 z-50  bg-gray-950/90 backdrop-blur-md shadow-2xl shadow-black/50 border-b border-blue-900/50 ">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex flex-col items-start sm:flex-row justify-between sm:items-center py-4 sm:h-16 gap-4 sm:gap-0 ">
             <Link
               to={"/"}
               className="flex items-center  text-2xl font-black text-white hover:text-blue-400 transition duration-300 tracking-widest"
@@ -27,7 +27,7 @@ const NavBar = ({ handleSearch }) => {
 
             <form
               onSubmit={searchHandler}
-              className="flex-1 max-w-lg mx-4 hidden sm:flex"
+              className="flex-1 w-full max-w-lg sm:mx-4 flex"
             >
               <input
                 type="text"

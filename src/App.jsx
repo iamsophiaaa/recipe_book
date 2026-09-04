@@ -28,6 +28,7 @@ function App() {
       setSearchLoading(false);
     }
   }, []);
+
   return (
     <>
       <Router>
